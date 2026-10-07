@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+@theme {
+  /* ---- Brand: deep forest green ---- */
+  --color-forest-50: #eff6f1;
+  --color-forest-100: #d7e8dd;
+  --color-forest-200: #aecebb;
+  --color-forest-300: #7cae91;
+  --color-forest-400: #4d8c6a;
+  --color-forest-500: #2d6d4c;
+  --color-forest-600: #1c5438;
+  --color-forest-700: #15432d;
+  --color-forest-800: #113b2b;
+  --color-forest-900: #0b2a1d;
+  --color-forest-950: #061710;
+
+  /* ---- Warm cream surfaces ---- */
+  --color-cream-50: #fffdf8;
+  --color-cream-100: #fdf9f1;
+  --color-cream-200: #f8f1e3;
+  --color-cream-300: #efe4d1;
+  --color-cream-400: #e2d2b8;
+  --color-page: #f6f1e6;
+
+  /* ---- Food-inspired accents ---- */
+  --color-gold-300: #e6c589;
+  --color-gold-400: #d9b166;
+  --color-gold-500: #c79a4b;
+  --color-gold-600: #a67c32;
+  --color-terracotta-400: #d4794f;
+  --color-terracotta-500: #c1613c;
+  --color-terracotta-600: #a44d2d;
+
+  /* ---- Recommendation role palettes ---- */
+  --color-pick-bg: #fdeff1;
+  --color-pick-edge: #f6dade;
+  --color-pick-ink: #b8374f;
+  --color-best-bg: #fbf4e5;
+  --color-best-edge: #f1e2c3;
+  --color-best-ink: #96701f;
+  --color-wild-bg: #edf3fb;
+  --color-wild-edge: #d8e5f6;
+  --color-wild-ink: #2f6296;
+
+  /* ---- Ink ---- */
+  --color-ink-900: #14211a;
+  --color-ink-700: #35433b;
+  --color-ink-500: #647166;
+  --color-ink-400: #8b968c;
+
+  /* ---- Type ---- */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* ---- Radii ---- */
+  --radius-card: 28px;
+  --radius-bubble: 32px;
+
+  /* ---- Easing ---- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-page);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
+  }
+
+  /* Editorial headings: tighter tracking for large display use. */
+  h1,
+  h2,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+
+  button,
+  a {
+    touch-action: manipulation;
+  }
+
+  /* Keyboard focus only — avoids rings on touch/mouse press. */
+  :focus-visible {
+    outline: 2px solid var(--color-forest-500);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--color-gold-300);
+    color: var(--color-forest-950);
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Hairline that reads as a crease rather than a border. */
+@utility edge-soft {
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--color-forest-900) 8%, transparent);
+}
+
+@utility shadow-warm {
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--color-forest-950) 4%, transparent),
+    0 8px 24px -8px color-mix(in oklab, var(--color-forest-950) 10%, transparent);
+}
+
+@utility shadow-warm-lg {
+  box-shadow:
+    0 2px 4px color-mix(in oklab, var(--color-forest-950) 5%, transparent),
+    0 18px 48px -12px color-mix(in oklab, var(--color-forest-950) 18%, transparent);
+}
+
+@utility shadow-cta {
+  box-shadow:
+    0 2px 6px color-mix(in oklab, var(--color-forest-950) 18%, transparent),
+    0 12px 28px -10px color-mix(in oklab, var(--color-forest-950) 35%, transparent);
+}
+
+/* Safe-area helpers for iOS home-indicator overlap. */
+@utility pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@utility pt-safe {
+  padding-top: max(0.75rem, env(safe-area-inset-top));
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Placeholder sheen while photos load. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-cream-300);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, white 55%, transparent),
+    transparent
+  );
+  animation: shimmer 1.6s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    animation: none;
+  }
+}
